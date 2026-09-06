@@ -119,10 +119,7 @@ if page == "Dashboard":
         "using clinical and demographic data."
     )
 
-    st.warning(
-        "Educational project only — this model is not intended "
-        "to provide a medical diagnosis."
-    )
+    
 
     # --------------------------------------
     # Summary statistics
