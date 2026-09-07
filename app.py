@@ -120,7 +120,7 @@ page = st.sidebar.radio(
 
 if page == "About This Project":
 
-    st.title("🩺 Diabetes Risk Prediction Dashboard")
+    st.title("🩺Diabetes Risk Prediction & Analytics Dashboard")
 
     st.subheader("About This Project")
 
