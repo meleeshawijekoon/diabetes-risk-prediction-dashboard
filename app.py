@@ -212,7 +212,7 @@ if page == "About This Project":
 
     st.divider()
 
-    st.caption("Developed by Meleesha Wijekoon")
+    
 
 
 # ==========================================
