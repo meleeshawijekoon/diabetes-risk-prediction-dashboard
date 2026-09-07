@@ -532,8 +532,14 @@ elif page == "Data Analysis":
 
     st.title("🔍 Data Analysis")
 
+    st.write(
+        "Explore the dataset through descriptive statistics, "
+        "missing values, distributions, group comparisons, "
+        "and correlations."
+    )
+
     # --------------------------------------
-    # Dataset preview
+    # Dataset Preview
     # --------------------------------------
 
     st.subheader("Dataset Preview")
@@ -546,7 +552,24 @@ elif page == "Data Analysis":
     st.divider()
 
     # --------------------------------------
-    # Missing values
+    # Summary Statistics
+    # --------------------------------------
+
+    st.subheader("Summary Statistics")
+
+    summary = df.describe().T
+
+    summary = summary.round(2)
+
+    st.dataframe(
+        summary,
+        use_container_width=True
+    )
+
+    st.divider()
+
+    # --------------------------------------
+    # Missing Values
     # --------------------------------------
 
     st.subheader("Missing Values")
@@ -566,53 +589,103 @@ elif page == "Data Analysis":
     st.divider()
 
     # --------------------------------------
-    # Glucose
+    # Glucose and BMI Comparison
     # --------------------------------------
 
-    st.subheader(
-        "Glucose by Diabetes Outcome"
-    )
+    col1, col2 = st.columns(2)
 
-    fig, ax = plt.subplots()
+    with col1:
 
-    sns.boxplot(
-        data=df,
-        x="Outcome",
-        y="Glucose",
-        ax=ax
-    )
+        st.subheader("Glucose by Diabetes Outcome")
 
-    ax.set_xticklabels(
-        ["No Diabetes", "Diabetes"]
-    )
+        fig, ax = plt.subplots()
 
-    st.pyplot(fig)
+        sns.boxplot(
+            data=df,
+            x="Outcome",
+            y="Glucose",
+            ax=ax
+        )
+
+        ax.set_xticklabels(
+            ["No Diabetes", "Diabetes"]
+        )
+
+        ax.set_xlabel("Diabetes Outcome")
+        ax.set_ylabel("Glucose")
+
+        st.pyplot(fig)
+
+    with col2:
+
+        st.subheader("BMI by Diabetes Outcome")
+
+        fig, ax = plt.subplots()
+
+        sns.boxplot(
+            data=df,
+            x="Outcome",
+            y="BMI",
+            ax=ax
+        )
+
+        ax.set_xticklabels(
+            ["No Diabetes", "Diabetes"]
+        )
+
+        ax.set_xlabel("Diabetes Outcome")
+        ax.set_ylabel("BMI")
+
+        st.pyplot(fig)
+
+    st.divider()
 
     # --------------------------------------
-    # BMI
+    # Age and Blood Pressure Distributions
     # --------------------------------------
 
-    st.subheader(
-        "BMI by Diabetes Outcome"
-    )
+    col1, col2 = st.columns(2)
 
-    fig, ax = plt.subplots()
+    with col1:
 
-    sns.boxplot(
-        data=df,
-        x="Outcome",
-        y="BMI",
-        ax=ax
-    )
+        st.subheader("Age Distribution")
 
-    ax.set_xticklabels(
-        ["No Diabetes", "Diabetes"]
-    )
+        fig, ax = plt.subplots()
 
-    st.pyplot(fig)
+        sns.histplot(
+            data=df,
+            x="Age",
+            kde=True,
+            ax=ax
+        )
+
+        ax.set_xlabel("Age")
+        ax.set_ylabel("Number of Records")
+
+        st.pyplot(fig)
+
+    with col2:
+
+        st.subheader("Blood Pressure Distribution")
+
+        fig, ax = plt.subplots()
+
+        sns.histplot(
+            data=df,
+            x="BloodPressure",
+            kde=True,
+            ax=ax
+        )
+
+        ax.set_xlabel("Blood Pressure")
+        ax.set_ylabel("Number of Records")
+
+        st.pyplot(fig)
+
+    st.divider()
 
     # --------------------------------------
-    # Correlation
+    # Correlation Matrix
     # --------------------------------------
 
     st.subheader("Correlation Matrix")
@@ -630,8 +703,6 @@ elif page == "Data Analysis":
     )
 
     st.pyplot(fig)
-
-
 # ==========================================
 # MODEL PERFORMANCE
 # ==========================================
