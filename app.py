@@ -101,7 +101,7 @@ auc = roc_auc_score(y_test, y_probability)
 st.sidebar.title("🩺 Diabetes Risk Prediction & Analytics
 
 An interactive machine learning application
-for diabetes risk assessment and data analysis
+for diabetes risk assessment and data analysis")
 
 st.sidebar.caption("Developed by Meleesha Wijekoon")
 
