@@ -22,7 +22,7 @@ from sklearn.metrics import (
 # ==========================================
 
 st.set_page_config(
-    page_title="Diabetes Risk Prediction",
+    page_title="Diabetes Risk Prediction & Analytics Dashboard",
     page_icon="🩺",
     layout="wide"
 )
