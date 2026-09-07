@@ -140,12 +140,28 @@ if page == "About This Project":
 
     st.write(
         """
-        This project is an interactive web application that uses machine learning and data analysis to assess diabetes risk. It includes a risk prediction tool, data visualizations, and analytics to provide meaningful insights from diabetes related data.
+        This interactive web application demonstrates the use of machine learning 
+        and data analytics for diabetes risk prediction. It combines a Logistic 
+        Regression model with an interactive risk calculator and data visualization 
+        tools to provide model-based risk estimates and explore patterns within 
+        the dataset.
         """
     )
 
     st.divider()
 
+    st.subheader("Dataset")
+
+    st.write(
+        """
+        The application uses the Pima Indians Diabetes Dataset, containing 768 
+        observations and eight predictor variables related to diabetes risk, 
+        including glucose, blood pressure, BMI, insulin, age, and pregnancy history. 
+        The target variable, **Outcome**, represents the diabetes classification.
+        """
+    )
+
+    st.divider()
     # --------------------------------------
     # Project overview
     # --------------------------------------
