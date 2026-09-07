@@ -185,14 +185,7 @@ if page == "About This Project":
             """
         )
 
-        st.markdown("### 🤖 Machine Learning Model")
-
-        st.write(
-            """
-            A Logistic Regression model is used with median
-            imputation and feature standardization.
-            """
-        )
+        
 
     st.divider()
     
