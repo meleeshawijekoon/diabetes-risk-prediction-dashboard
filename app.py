@@ -16,6 +16,7 @@ from sklearn.metrics import (
     roc_curve
 )
 
+
 # ==========================================
 # PAGE SETTINGS
 # ==========================================
@@ -25,6 +26,7 @@ st.set_page_config(
     page_icon="🩺",
     layout="wide"
 )
+
 
 # ==========================================
 # LOAD DATA
@@ -51,6 +53,7 @@ def load_data():
 
 
 df = load_data()
+
 
 # ==========================================
 # TRAIN MODEL
@@ -90,36 +93,262 @@ y_probability = model.predict_proba(X_test)[:, 1]
 accuracy = accuracy_score(y_test, y_pred)
 auc = roc_auc_score(y_test, y_probability)
 
+
 # ==========================================
 # SIDEBAR
 # ==========================================
 
 st.sidebar.title("🩺 Diabetes Dashboard")
 
+st.sidebar.caption("Developed by Meleesha Wijekoon")
+
 page = st.sidebar.radio(
     "Navigation",
     [
+        "About This Project",
+        "Risk Calculator",
         "Dashboard",
         "Data Analysis",
-        "Risk Prediction",
         "Model Performance"
     ]
 )
+
+
+# ==========================================
+# ABOUT THIS PROJECT
+# ==========================================
+
+if page == "About This Project":
+
+    st.title("🩺 Diabetes Risk Prediction Dashboard")
+
+    st.subheader("About This Project")
+
+    st.write(
+        """
+        This project demonstrates the use of machine learning and
+        data analysis techniques to explore diabetes-related data
+        and generate model-based risk predictions.
+        """
+    )
+
+    st.divider()
+
+    # --------------------------------------
+    # Project overview
+    # --------------------------------------
+
+    st.subheader("What You Can Explore")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.markdown("### 🧮 1. Risk Calculator")
+
+        st.write(
+            """
+            Enter selected health and demographic characteristics
+            to obtain a model-based estimated probability of diabetes.
+            """
+        )
+
+        st.markdown("### 📊 2. Dashboard")
+
+        st.write(
+            """
+            Explore an overview of the dataset through summary
+            statistics and visualizations.
+            """
+        )
+
+        st.markdown("### 🔍 3. Data Analysis")
+
+        st.write(
+            """
+            Examine the dataset, missing values, distributions,
+            group comparisons, and correlations between variables.
+            """
+        )
+
+    with col2:
+
+        st.markdown("### 📈 4. Model Performance")
+
+        st.write(
+            """
+            Review the machine-learning model using accuracy,
+            ROC-AUC, a confusion matrix, and an ROC curve.
+            """
+        )
+
+        st.markdown("### 🤖 Machine Learning Model")
+
+        st.write(
+            """
+            A Logistic Regression model is used with median
+            imputation and feature standardization.
+            """
+        )
+
+    st.divider()
+
+    st.subheader("Technologies Used")
+
+    tech_col1, tech_col2, tech_col3, tech_col4 = st.columns(4)
+
+    tech_col1.metric("Language", "Python")
+    tech_col2.metric("Dashboard", "Streamlit")
+    tech_col3.metric("Model", "Logistic Regression")
+    tech_col4.metric("Evaluation", "ROC-AUC")
+
+    st.divider()
+
+    st.caption("Developed by Meleesha Wijekoon")
+
+
+# ==========================================
+# RISK CALCULATOR
+# ==========================================
+
+elif page == "Risk Calculator":
+
+    st.title("🧮 Diabetes Risk Calculator")
+
+    st.write(
+        """
+        Enter the required characteristics below to obtain
+        a model-based estimated probability.
+        """
+    )
+
+    st.divider()
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        pregnancies = st.number_input(
+            "Pregnancies",
+            min_value=0,
+            max_value=20,
+            value=1
+        )
+
+        glucose = st.number_input(
+            "Glucose",
+            min_value=1.0,
+            max_value=250.0,
+            value=120.0
+        )
+
+        blood_pressure = st.number_input(
+            "Blood Pressure",
+            min_value=1.0,
+            max_value=150.0,
+            value=70.0
+        )
+
+        skin_thickness = st.number_input(
+            "Skin Thickness",
+            min_value=1.0,
+            max_value=100.0,
+            value=20.0
+        )
+
+    with col2:
+
+        insulin = st.number_input(
+            "Insulin",
+            min_value=1.0,
+            max_value=900.0,
+            value=80.0
+        )
+
+        bmi = st.number_input(
+            "BMI",
+            min_value=10.0,
+            max_value=70.0,
+            value=30.0
+        )
+
+        diabetes_pedigree = st.number_input(
+            "Diabetes Pedigree Function",
+            min_value=0.0,
+            max_value=3.0,
+            value=0.5
+        )
+
+        age = st.number_input(
+            "Age",
+            min_value=18,
+            max_value=100,
+            value=30
+        )
+
+    st.divider()
+
+    if st.button(
+        "🔍 Calculate Risk",
+        type="primary"
+    ):
+
+        input_data = pd.DataFrame({
+            "Pregnancies": [pregnancies],
+            "Glucose": [glucose],
+            "BloodPressure": [blood_pressure],
+            "SkinThickness": [skin_thickness],
+            "Insulin": [insulin],
+            "BMI": [bmi],
+            "DiabetesPedigreeFunction": [
+                diabetes_pedigree
+            ],
+            "Age": [age]
+        })
+
+        probability = model.predict_proba(
+            input_data
+        )[0][1]
+
+        prediction = model.predict(
+            input_data
+        )[0]
+
+        st.subheader("Prediction Result")
+
+        st.metric(
+            "Estimated Probability",
+            f"{probability * 100:.1f}%"
+        )
+
+        if prediction == 1:
+
+            st.error(
+                "Higher predicted risk"
+            )
+
+        else:
+
+            st.success(
+                "Lower predicted risk"
+            )
+
+        st.progress(
+            float(probability)
+        )
+
 
 # ==========================================
 # DASHBOARD
 # ==========================================
 
-if page == "Dashboard":
+elif page == "Dashboard":
 
-    st.title("🩺 Diabetes Risk Prediction Dashboard")
+    st.title("📊 Dashboard")
 
     st.write(
-        "Interactive analysis and machine-learning prediction "
-        "using clinical and demographic data."
+        "Overview of the diabetes dataset and key variables."
     )
-
-    
 
     # --------------------------------------
     # Summary statistics
@@ -220,7 +449,11 @@ if page == "Dashboard":
 
 elif page == "Data Analysis":
 
-    st.title("📊 Data Analysis")
+    st.title("🔍 Data Analysis")
+
+    # --------------------------------------
+    # Dataset preview
+    # --------------------------------------
 
     st.subheader("Dataset Preview")
 
@@ -319,146 +552,16 @@ elif page == "Data Analysis":
 
 
 # ==========================================
-# RISK PREDICTION
-# ==========================================
-
-elif page == "Risk Prediction":
-
-    st.title("🤖 Diabetes Risk Prediction")
-
-    st.write(
-        "Enter the required patient characteristics "
-        "to obtain a model-based prediction."
-    )
-
-    st.info(
-        "This is a machine-learning demonstration and "
-        "not a medical diagnosis."
-    )
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-
-        pregnancies = st.number_input(
-            "Pregnancies",
-            min_value=0,
-            max_value=20,
-            value=1
-        )
-
-        glucose = st.number_input(
-            "Glucose",
-            min_value=1.0,
-            max_value=250.0,
-            value=120.0
-        )
-
-        blood_pressure = st.number_input(
-            "Blood Pressure",
-            min_value=1.0,
-            max_value=150.0,
-            value=70.0
-        )
-
-        skin_thickness = st.number_input(
-            "Skin Thickness",
-            min_value=1.0,
-            max_value=100.0,
-            value=20.0
-        )
-
-    with col2:
-
-        insulin = st.number_input(
-            "Insulin",
-            min_value=1.0,
-            max_value=900.0,
-            value=80.0
-        )
-
-        bmi = st.number_input(
-            "BMI",
-            min_value=10.0,
-            max_value=70.0,
-            value=30.0
-        )
-
-        diabetes_pedigree = st.number_input(
-            "Diabetes Pedigree Function",
-            min_value=0.0,
-            max_value=3.0,
-            value=0.5
-        )
-
-        age = st.number_input(
-            "Age",
-            min_value=18,
-            max_value=100,
-            value=30
-        )
-
-    st.divider()
-
-    if st.button(
-        "🔍 Predict Risk",
-        type="primary"
-    ):
-
-        input_data = pd.DataFrame({
-            "Pregnancies": [pregnancies],
-            "Glucose": [glucose],
-            "BloodPressure": [blood_pressure],
-            "SkinThickness": [skin_thickness],
-            "Insulin": [insulin],
-            "BMI": [bmi],
-            "DiabetesPedigreeFunction": [
-                diabetes_pedigree
-            ],
-            "Age": [age]
-        })
-
-        probability = model.predict_proba(
-            input_data
-        )[0][1]
-
-        prediction = model.predict(
-            input_data
-        )[0]
-
-        st.subheader(
-            "Prediction Result"
-        )
-
-        st.metric(
-            "Estimated Probability",
-            f"{probability * 100:.1f}%"
-        )
-
-        if prediction == 1:
-
-            st.error(
-                "Higher predicted risk"
-            )
-
-        else:
-
-            st.success(
-                "Lower predicted risk"
-            )
-
-        st.progress(
-            float(probability)
-        )
-
-
-# ==========================================
 # MODEL PERFORMANCE
 # ==========================================
 
 elif page == "Model Performance":
 
     st.title("📈 Model Performance")
+
+    st.write(
+        "Performance of the Logistic Regression model on the test dataset."
+    )
 
     col1, col2 = st.columns(2)
 
@@ -544,3 +647,18 @@ elif page == "Model Performance":
     ax.legend()
 
     st.pyplot(fig)
+
+
+# ==========================================
+# FOOTER
+# ==========================================
+
+st.sidebar.divider()
+
+st.sidebar.caption(
+    "Diabetes Risk Prediction Dashboard"
+)
+
+st.sidebar.caption(
+    "Developed by Meleesha Wijekoon"
+)
