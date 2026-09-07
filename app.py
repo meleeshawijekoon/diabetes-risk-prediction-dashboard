@@ -98,7 +98,10 @@ auc = roc_auc_score(y_test, y_probability)
 # SIDEBAR
 # ==========================================
 
-st.sidebar.title("🩺 Diabetes Dashboard")
+st.sidebar.title("🩺 Diabetes Risk Prediction & Analytics
+
+An interactive machine learning application
+for diabetes risk assessment and data analysis")
 
 st.sidebar.caption("Developed by Meleesha Wijekoon")
 
@@ -120,7 +123,7 @@ page = st.sidebar.radio(
 
 if page == "About This Project":
 
-    st.title("🩺Diabetes Risk Prediction & Analytics Dashboard")
+    st.title("🩺 Diabetes Risk Prediction & Analytics Web Application")
 
     st.subheader("About This Project")
 
