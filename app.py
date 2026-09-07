@@ -658,9 +658,7 @@ elif page == "Model Performance":
 
 st.sidebar.divider()
 
-st.sidebar.caption(
-    "Diabetes Risk Prediction Dashboard"
-)
+
 
 st.sidebar.caption(
     "Developed by Meleesha Wijekoon"
