@@ -201,7 +201,7 @@ if page == "About This Project":
 
     st.subheader("Technologies Used")
 
-    tech_col1, tech_col2, tech_col3, tech_col4 = st.columns(4)
+    tech_col1, tech_col2, tech_col3,  = st.columns(3)
 
     tech_col1.metric("Language", "Python")
     tech_col2.metric("Dashboard", "Streamlit")
@@ -214,7 +214,7 @@ if page == "About This Project":
 </div>
 """, unsafe_allow_html=True)
 
-    tech_col4.metric("Evaluation", "ROC-AUC")
+    
 
     st.divider()
 
