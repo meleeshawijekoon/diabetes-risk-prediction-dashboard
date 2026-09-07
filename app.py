@@ -105,7 +105,7 @@ An interactive machine learning application
 for diabetes risk assessment and data analysis
 """)
 
-st.sidebar.caption("Developed by Meleesha Wijekoon")
+
 
 page = st.sidebar.radio(
     "Navigation",
