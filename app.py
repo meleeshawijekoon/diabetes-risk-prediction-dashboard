@@ -15,7 +15,16 @@ from sklearn.metrics import (
     confusion_matrix,
     roc_curve
 )
-
+from sklearn.metrics import (
+    accuracy_score,
+    roc_auc_score,
+    confusion_matrix,
+    roc_curve,
+    precision_score,
+    recall_score,
+    f1_score,
+    classification_report
+)
 
 # ==========================================
 # PAGE SETTINGS
@@ -712,10 +721,30 @@ elif page == "Model Performance":
     st.title("📈 Model Performance")
 
     st.write(
-        "Performance of the Logistic Regression model on the test dataset."
+        "Evaluation of the Logistic Regression model "
+        "using the test dataset."
     )
 
-    col1, col2 = st.columns(2)
+    # --------------------------------------
+    # Performance Metrics
+    # --------------------------------------
+
+    precision = precision_score(
+        y_test,
+        y_pred
+    )
+
+    recall = recall_score(
+        y_test,
+        y_pred
+    )
+
+    f1 = f1_score(
+        y_test,
+        y_pred
+    )
+
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     col1.metric(
         "Accuracy",
@@ -727,10 +756,25 @@ elif page == "Model Performance":
         f"{auc:.3f}"
     )
 
+    col3.metric(
+        "Precision",
+        f"{precision:.3f}"
+    )
+
+    col4.metric(
+        "Recall",
+        f"{recall:.3f}"
+    )
+
+    col5.metric(
+        "F1-Score",
+        f"{f1:.3f}"
+    )
+
     st.divider()
 
     # --------------------------------------
-    # Confusion matrix
+    # Confusion Matrix
     # --------------------------------------
 
     st.subheader("Confusion Matrix")
@@ -746,21 +790,44 @@ elif page == "Model Performance":
         cm,
         annot=True,
         fmt="d",
+        xticklabels=["No Diabetes", "Diabetes"],
+        yticklabels=["No Diabetes", "Diabetes"],
         ax=ax
     )
 
-    ax.set_xlabel(
-        "Predicted"
-    )
-
-    ax.set_ylabel(
-        "Actual"
-    )
+    ax.set_xlabel("Predicted")
+    ax.set_ylabel("Actual")
 
     st.pyplot(fig)
 
+    st.divider()
+
     # --------------------------------------
-    # ROC curve
+    # Classification Report
+    # --------------------------------------
+
+    st.subheader("Classification Report")
+
+    report = classification_report(
+        y_test,
+        y_pred,
+        target_names=["No Diabetes", "Diabetes"],
+        output_dict=True
+    )
+
+    report_df = pd.DataFrame(report).transpose()
+
+    report_df = report_df.round(3)
+
+    st.dataframe(
+        report_df,
+        use_container_width=True
+    )
+
+    st.divider()
+
+    # --------------------------------------
+    # ROC Curve
     # --------------------------------------
 
     st.subheader("ROC Curve")
@@ -800,15 +867,51 @@ elif page == "Model Performance":
 
     st.pyplot(fig)
 
+    st.divider()
 
-# ==========================================
-# FOOTER
-# ==========================================
+    # --------------------------------------
+    # Prediction Probability Distribution
+    # --------------------------------------
 
-st.sidebar.divider()
+    st.subheader("Prediction Probability Distribution")
 
+    fig, ax = plt.subplots()
 
+    sns.histplot(
+        y_probability,
+        bins=20,
+        kde=True,
+        ax=ax
+    )
 
-st.sidebar.caption(
-    "Developed by Meleesha Wijekoon"
-)
+    ax.set_xlabel(
+        "Predicted Probability of Diabetes"
+    )
+
+    ax.set_ylabel(
+        "Number of Test Records"
+    )
+
+    st.pyplot(fig)
+
+    st.divider()
+
+    # --------------------------------------
+    # Model Information
+    # --------------------------------------
+
+    st.subheader("Model Information")
+
+    info_col1, info_col2 = st.columns(2)
+
+    with info_col1:
+
+        st.write("**Algorithm:** Logistic Regression")
+        st.write("**Training/Test Split:** 80% / 20%")
+        st.write("**Preprocessing:** Median Imputation + Standard Scaling")
+
+    with info_col2:
+
+        st.write("**Maximum Iterations:** 1000")
+        st.write("**Evaluation:** Accuracy, ROC-AUC, Precision, Recall and F1-score")
+        st.write("**Test Samples:**", len(y_test))
