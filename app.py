@@ -195,13 +195,14 @@ if page == "About This Project":
         )
 
     st.divider()
-st.markdown("""
-<style>
-[data-testid="stMetricValue"] {
-    font-size: 22px;
-}
-</style>
-""")
+    st.markdown("""
+    <style>
+    [data-testid="stMetricValue"] {
+    font-size: 22px !important;
+    }
+    </style>
+    """)
+
     st.subheader("Technologies Used")
 
     tech_col1, tech_col2, tech_col3, tech_col4 = st.columns(4)
