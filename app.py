@@ -195,13 +195,7 @@ if page == "About This Project":
         )
 
     st.divider()
-    st.markdown("""
-    <style>
-    [data-testid="stMetricValue"] {
-    font-size: 22px !important;
-    }
-    </style>
-    """)
+    
 
     st.subheader("Technologies Used")
 
@@ -209,7 +203,7 @@ if page == "About This Project":
 
     tech_col1.metric("Language", "Python")
     tech_col2.metric("Dashboard", "Streamlit")
-    tech_col3.metric("Model", "Logistic Regression")
+    tech_col3.metric("Model", "Logistic\nRegression")
     tech_col4.metric("Evaluation", "ROC-AUC")
 
     st.divider()
