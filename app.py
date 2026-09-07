@@ -131,9 +131,7 @@ if page == "About This Project":
 
     st.write(
         """
-        This project demonstrates the use of machine learning and
-        data analysis techniques to explore diabetes-related data
-        and generate model-based risk predictions.
+        This project is an interactive web application that uses machine learning and data analysis to assess diabetes risk. It includes a risk prediction tool, data visualizations, and analytics to provide meaningful insights from diabetes related data.
         """
     )
 
