@@ -157,7 +157,7 @@ if page == "About This Project":
         The application uses the Pima Indians Diabetes Dataset, containing 768 
         observations and eight predictor variables related to diabetes risk, 
         including glucose, blood pressure, BMI, insulin, age, and pregnancy history. 
-        The target variable, **Outcome**, represents the diabetes classification.
+        The target variable - **Outcome**, represents the diabetes classification.
         """
     )
 
