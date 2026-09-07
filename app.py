@@ -343,13 +343,15 @@ elif page == "Risk Calculator":
         )
 
 
+
+
 # ==========================================
 # DASHBOARD
 # ==========================================
 
 elif page == "Dashboard":
 
-    st.title("📊 Dashboard")
+    st.title("📊 Diabetes Analytics Dashboard")
 
     st.write(
         "Overview of the diabetes dataset and key variables."
@@ -398,7 +400,7 @@ elif page == "Dashboard":
     st.divider()
 
     # --------------------------------------
-    # Outcome chart
+    # Outcome and Glucose
     # --------------------------------------
 
     col1, col2 = st.columns(2)
@@ -425,10 +427,6 @@ elif page == "Dashboard":
 
         st.pyplot(fig)
 
-    # --------------------------------------
-    # Glucose distribution
-    # --------------------------------------
-
     with col2:
 
         st.subheader(
@@ -444,6 +442,84 @@ elif page == "Dashboard":
             kde=True,
             ax=ax
         )
+
+        ax.set_xlabel("Glucose")
+        ax.set_ylabel("Number of Records")
+
+        st.pyplot(fig)
+
+    st.divider()
+
+    # --------------------------------------
+    # Glucose vs BMI
+    # --------------------------------------
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.subheader(
+            "Glucose vs BMI"
+        )
+
+        fig, ax = plt.subplots()
+
+        sns.scatterplot(
+            data=df,
+            x="Glucose",
+            y="BMI",
+            hue="Outcome",
+            ax=ax
+        )
+
+        ax.set_xlabel("Glucose")
+        ax.set_ylabel("BMI")
+
+        st.pyplot(fig)
+
+    # --------------------------------------
+    # Diabetes Outcome by Age Group
+    # --------------------------------------
+
+    with col2:
+
+        st.subheader(
+            "Diabetes Outcome by Age Group"
+        )
+
+        df_age = df.copy()
+
+        df_age["Age Group"] = pd.cut(
+            df_age["Age"],
+            bins=[17, 29, 39, 49, 59, 100],
+            labels=[
+                "18–29",
+                "30–39",
+                "40–49",
+                "50–59",
+                "60+"
+            ]
+        )
+
+        age_outcome = (
+            df_age.groupby(
+                "Age Group",
+                observed=False
+            )["Outcome"]
+            .mean() * 100
+        )
+
+        fig, ax = plt.subplots()
+
+        ax.bar(
+            age_outcome.index,
+            age_outcome.values
+        )
+
+        ax.set_xlabel("Age Group")
+        ax.set_ylabel("Diabetes Outcome (%)")
+
+        ax.set_ylim(0, 100)
 
         st.pyplot(fig)
 
