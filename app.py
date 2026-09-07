@@ -203,7 +203,15 @@ if page == "About This Project":
 
     tech_col1.metric("Language", "Python")
     tech_col2.metric("Dashboard", "Streamlit")
-    tech_col3.metric("Model", "Logistic\nRegression")
+    tech_col3.markdown("""
+<div style="text-align: center;">
+    <div style="font-size: 14px;">Model</div>
+    <div style="font-size: 22px; font-weight: 600;">
+        Logistic<br>Regression
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
     tech_col4.metric("Evaluation", "ROC-AUC")
 
     st.divider()
